@@ -23,7 +23,7 @@
 
 (setq doom-font (font-spec :family "Blex Mono Nerd Font" :size 13 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-;
+                                        ;
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;;
@@ -66,11 +66,11 @@
           "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
-        ;; Uncomment this this to enable bibtex on export
-        ;; (setq org-latex-pdf-process (list "latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f
-                                        ;; "bibtex %b"
-                                        ;; "latexmk -shell-escape -bibtex -f -pdf %f"))
-)
+  ;; Uncomment this this to enable bibtex on export
+  ;; (setq org-latex-pdf-process (list "latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f
+  ;; "bibtex %b"
+  ;; "latexmk -shell-escape -bibtex -f -pdf %f"))
+  )
 
 
 (after! org
@@ -79,9 +79,9 @@
   (setq my-org-capture-templates
         '(("d" "Daily todo")
           ("dd" "Todo today" entry
-          (file+olp+datetree +org-capture-daily-todo-file) "* TODO %?")
+           (file+olp+datetree +org-capture-daily-todo-file) "* TODO %?")
           ("dt" "Todo custom time" entry
-          (file+olp+datetree +org-capture-daily-todo-file) "* TODO %?"
+           (file+olp+datetree +org-capture-daily-todo-file) "* TODO %?"
            :time-prompt "+1")
           ))
 
@@ -104,23 +104,28 @@
   (after! lsp-mode
     (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
     (lsp-register-client
-      (make-lsp-client
-        :new-connection (lsp-stdio-connection "zls")
-        :major-modes '(zig-mode)
-        :server-id 'zls))))
+     (make-lsp-client
+      :new-connection (lsp-stdio-connection "zls")
+      :major-modes '(zig-mode)
+      :server-id 'zls))))
 
 
 ;; (after! dap-mode
 ;;   (setq dap-python-debugger 'debugpy))
 
 (after! lsp-clangd
-        (setq lsp-clients-clangd-args '("--clang-tidy"
-                                        "--enable-config"
-                                        "--header-insertion-decorators=0"))
-        (set-lsp-priority! 'clangd 2))
+  (setq lsp-clients-clangd-args '("--clang-tidy"
+                                  "--enable-config"
+                                  "--header-insertion-decorators=0"))
+  (set-lsp-priority! 'clangd 2))
 
 (after! clojure-mode
   (setq cider-font-lock-dynamically '(macro core function var)))
+
+(after! pyim
+  (require 'pyim-basedict)
+  (pyim-basedict-enable))
+
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.

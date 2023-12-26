@@ -16,7 +16,7 @@
 
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
-       chinese
+       (chinese +childframe)
        ;;japanese
        ;;layout            ; auie,ctsrnm is the superior home row
 
@@ -116,7 +116,7 @@
        ;;agda              ; types of types of types of types...
        ;;beancount         ; mind the GAAP
        (cc +lsp +tree-sitter)         ; C > C++ == 1
-       (clojure +lsp +tree-sitter)           ; java with a lisp
+       ;; (clojure +lsp +tree-sitter)           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
@@ -172,7 +172,7 @@
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       (web +lsp +tree-sitter)    ; the tubes
+       (web +lsp)    ; the tubes
        yaml              ; JSON, but readable
        (zig +lsp)            ; C, but simpler
 
