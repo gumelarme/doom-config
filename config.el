@@ -40,24 +40,36 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
-
 (setq fcitx-remote-command "fcitx5-remote")
+
+;; = Org related configs
+
+;; == Org journal
+;; (setq org-journal-dir "~/sync/org/journal")
+;; (setq org-journal-file-type `monthly) ;; values: daily, weekly, monthly, yearly
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/sync/org/")
-(setq org-roam-directory (file-truename "~/sync/org/roam"))
-(setq org-roam-db-location (file-truename "~/sync/org/roam/roam.db"))
-(setq org-roam-capture-templates
-      '(("d" "default" plain "%?" :target
-         (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "${title}\n")
-         :unnarrowed t)))
-
-;; Org journal
-(setq org-journal-dir "~/sync/org/journal")
-(setq org-journal-file-type `monthly) ;; values: daily, weekly, monthly, yearly
-
 (after! org
+  ;; == Capture
+  (setq org-capture-templates
+        '(("i" "Inbox" entry
+           (file+headline +org-capture-todo-file "Inbox")
+           "** TODO %?\n")
+          ("w" "Workstations" entry
+           (file+headline +org-capture-todo-file "Workstations")
+           "** TODO %?\n")
+          ("s" "School Stuffs" entry
+           (file+headline +org-capture-todo-file "School")
+           "** TODO %?\n")
+
+          ;; TODO: prompt select heading using vertico
+          ;; ("p" "Projects" entry
+          ;;  (file+olp +org-capture-todo-file "Projects")
+          ;;  "** TODO %?\n")
+          ))
+
   ;; This export configuration is to enable chinese in latex
   ;; works for normal text too
   (map! :map org-mode-map  "C-c C-r" #'verb-command-map)
@@ -72,22 +84,33 @@
   ;; "latexmk -shell-escape -bibtex -f -pdf %f"))
   )
 
+;; == Roam
+(after! org-roam
+  (setq org-roam-directory (file-truename "~/sync/org")
+        org-roam-db-location (file-truename "~/sync/org/roam.db"))
 
-(after! org
-  (setq +org-capture-daily-todo-file
-        (expand-file-name "daily-todo.org" org-directory))
-  (setq my-org-capture-templates
-        '(("d" "Daily todo")
-          ("dd" "Todo today" entry
-           (file+olp+datetree +org-capture-daily-todo-file) "* TODO %?")
-          ("dt" "Todo custom time" entry
-           (file+olp+datetree +org-capture-daily-todo-file) "* TODO %?"
-           :time-prompt "+1")
-          ))
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?" :target
+           (file+head "main/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("r" "reference" plain "%?" :target
+           (file+head "reference/${title}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          )))
 
-  (dolist (tp my-org-capture-templates) (add-to-list 'org-capture-templates tp))
+;; == Citations
+(after! citar
+  (setq! citar-bibliography '("~/sync/org/biblio.bib")
+         citar-library-paths '("~/sync/zotero/")
+         citar-notes-paths '("~/sync/org/reference")
+         citar-org-roam-subdir '("reference"))
+
+  ;; # TODO: Define custom `citar-note-format-function'
+  ;; the default is `citar-org-format-note-default'
+  (add-to-list 'citar-templates '(note . ":: ${title}"))
   )
 
+;; = Langs
 (setq-hook! 'web-mode-hook +format-with-lsp t)
 (setq-hook! 'web-mode-hook +format-with 'prettier)
 
@@ -125,7 +148,6 @@
 (after! pyim
   (require 'pyim-basedict)
   (pyim-basedict-enable))
-
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.

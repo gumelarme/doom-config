@@ -9,6 +9,11 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 (package! verb)
 (package! pyim-basedict)
+;; (package! typst-mode
+;;   :recipe (:host sourcehut :repo "meow_king/typst-ts-mode"))
+
+;; (package! typst-mode.el
+;;   :recipe (:host github :repo "Ziqi-Yang/typst-mode.el"))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
