@@ -110,9 +110,14 @@
   (add-to-list 'citar-templates '(note . ":: ${title}"))
   )
 
+
+
 ;; = Langs
 (setq-hook! 'web-mode-hook +format-with-lsp t)
 (setq-hook! 'web-mode-hook +format-with 'prettier)
+
+(use-package! apheleia
+  :config (add-to-list 'apheleia-formatters '(nixfmt  "alejandra" "-")))
 
 (use-package! web-mode
   :config (add-to-list 'auto-mode-alist '("\\.astro\\'" . web-mode)))
